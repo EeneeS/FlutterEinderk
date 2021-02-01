@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'homepage.dart';
 
@@ -38,7 +36,8 @@ class _LoginPageState extends State<LoginPage> {
       //Juiste gegevens ga naar menu pagina
       gebruikerController.clear();
       wachtwoordController.clear();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
     }
   }
 
