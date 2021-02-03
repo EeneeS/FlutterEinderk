@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mqtt_client/mqtt_client.dart';
 import 'homepage.dart';
 
 void main() => runApp(MyApp());
@@ -22,6 +23,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final gebruikerController = TextEditingController();
   final wachtwoordController = TextEditingController();
+  MqttClient client;
 
   @override
   void dispose() {
