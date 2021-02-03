@@ -40,7 +40,6 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
       print('Connecting');
       await client.connect();
     } catch (e) {
-      print('Exception: $e');
       client.disconnect();
     }
 
@@ -53,11 +52,8 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
         getData(payload);
       });
 
-      client.published.listen((MqttPublishMessage message) {
-      });
+      client.published.listen((MqttPublishMessage message) {});
     } else {
-      print(
-          'EMQX client connection failed - disconnecting, status is ${client.connectionStatus}');
       client.disconnect();
       exit(-1);
     }
@@ -70,7 +66,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   }
 
   void onDisconnected() {
-    print('Disconnected');
+    //print('Disconnected');
   }
 
   void onSubscribed(String topic) {
@@ -78,15 +74,15 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   }
 
   void onSubscribeFail(String topic) {
-    print('Failed to subscribe topic: $topic');
+    //print('Failed to subscribe topic: $topic');
   }
 
   void onUnsubscribed(String topic) {
-    print('Unsubscribed topic: $topic');
+    //print('Unsubscribed topic: $topic');
   }
 
   void pong() {
-    print('Ping response client callback invoked');
+    //print('Ping response client callback invoked');
   }
 
   @override
@@ -99,8 +95,8 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
 
   void getData(payload) {
     setState(() {
-      Map<String, dynamic>.from(json.decode(payload));
-      print(payload.runtimeType);
+      Map data = jsonDecode(payload);
+      _totaleVerbruik = data["totalPower"].toString() + ' Watt';
     });
   }
 
@@ -113,23 +109,39 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
         appBar: AppBar(
           title: Text('Home'),
         ),
-        body: Column(
-          children: [
-            Text(
-              'Totale Verbruik: ' + _totaleVerbruik + ' Watt',
-              style: optionsStyle,
-            ),
-            ElevatedButton(
-              child: Text('Subscribe'),
-              onPressed: () {
-                return {client?.subscribe(topic, MqttQos.atLeastOnce)};
-              },
-            ),
-            ElevatedButton(
-              child: Text('Unsubscribe'),
-              onPressed: () => {client?.unsubscribe(topic)},
-            )
-          ],
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Totale Verbruik: ' + _totaleVerbruik,
+                style: optionsStyle,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedButton(
+                      child: Text('Subscribe'),
+                      onPressed: () {
+                        return {client?.subscribe(topic, MqttQos.atLeastOnce)};
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: ElevatedButton(
+                      child: Text('Unsubscribe'),
+                      onPressed: () {
+                        {client?.unsubscribe(topic);}
+                        setState(() {
+                          _totaleVerbruik = 'No Data';
+                        });
+                      },
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
         ));
   }
 }
