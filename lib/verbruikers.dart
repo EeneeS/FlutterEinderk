@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'API.dart';
 
 class Verbruikers extends StatefulWidget {
   @override
@@ -18,29 +19,29 @@ class _VerbruikersState extends State<Verbruikers> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 1: aan')),
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 1: uit'))
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker1Aan'), child: Text('Verbruiker 1: aan')),
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker1Uit'), child: Text('Verbruiker 1: uit'))
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 2: aan')),
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 2: uit'))
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker2Aan'), child: Text('Verbruiker 2: aan')),
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker2Uit'), child: Text('Verbruiker 2: uit'))
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 3: aan')),
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 3: uit'))
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker3Aan'), child: Text('Verbruiker 3: aan')),
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker3Uit'), child: Text('Verbruiker 3: uit'))
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 4: aan')),
-              ElevatedButton(onPressed: null, child: Text('Verbruiker 4: uit'))
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker4Aan'), child: Text('Verbruiker 4: aan')),
+              ElevatedButton(onPressed: () => getData('http://192.168.0.208:5000/verbruiker4Uit'), child: Text('Verbruiker 4: uit'))
             ],
           )
         ],
