@@ -112,10 +112,12 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Spacer(),
               Text(
                 'Totale Verbruik: ' + _totaleVerbruik,
                 style: optionsStyle,
               ),
+              Spacer(),
               Row(
                 children: [
                   Expanded(
@@ -138,7 +140,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
                     ),
                   )
                 ],
-              )
+              ),
             ],
           ),
         ));
