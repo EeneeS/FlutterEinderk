@@ -12,7 +12,7 @@ class TotaleVerbruik extends StatefulWidget {
 class _TotaleVerbruikState extends State<TotaleVerbruik> {
   MqttClient client;
   var topic = 'servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime';
-  String _totaleVerbruik = 'No data';
+  String _totaleVerbruik = 'No Data';
 
   Future<MqttClient> connect() async {
     MqttServerClient client = MqttServerClient.withPort(
@@ -29,21 +29,19 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
         .withClientIdentifier("flutter_client")
         .authenticateAs("test", "test")
         .keepAliveFor(60)
-        .withWillTopic(
-            'servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime')
-        .withWillMessage('App connected!')
+        .withWillTopic('servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime')
         .startClean()
         .withWillQos(MqttQos.atLeastOnce);
     client.connectionMessage = connMess;
     try {
-      print('Connecting');
+      //print('Connecting');
       await client.connect();
     } catch (e) {
       client.disconnect();
     }
 
     if (client.connectionStatus.state == MqttConnectionState.connected) {
-      print('EMQX client connected');
+      //print('EMQX client connected');
       client.updates.listen((List<MqttReceivedMessage<MqttMessage>> c) {
         final MqttPublishMessage message = c[0].payload;
         String payload =
@@ -61,7 +59,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   }
 
   void onConnected() {
-    print('Connected');
+    //print('Connected');
   }
 
   void onDisconnected() {
@@ -69,7 +67,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   }
 
   void onSubscribed(String topic) {
-    print('Subscribed topic: $topic');
+    //print('Subscribed topic: $topic');
   }
 
   void onSubscribeFail(String topic) {
