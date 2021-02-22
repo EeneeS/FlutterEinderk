@@ -13,6 +13,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   MqttClient client;
   var topic = 'servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime';
   String _totaleVerbruik = 'No Data';
+  //String _opbrengstZonnepannelen = 'No Data';
 
   Future<MqttClient> connect() async {
     MqttServerClient client = MqttServerClient.withPort(
@@ -29,9 +30,9 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
         .withClientIdentifier("flutter_client")
         .authenticateAs("test", "test")
         .keepAliveFor(60)
-        .withWillTopic('servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime')
-        .startClean()
-        .withWillQos(MqttQos.atLeastOnce);
+        //.withWillTopic('servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime') CORRUPTED KANKER LIJNEN
+        .startClean();
+    //.withWillQos(MqttQos.atLeastOnce); CORRUPTED KANKER LIJNEN
     client.connectionMessage = connMess;
     try {
       //print('Connecting');
@@ -94,6 +95,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
     setState(() {
       Map data = jsonDecode(payload);
       _totaleVerbruik = data["totalPower"].toString() + ' Watt';
+      //_opbrengstZonnepannelen = data['channelPowers'][1]['power'];
     });
   }
 
@@ -115,6 +117,10 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
                 'Totale Verbruik: ' + _totaleVerbruik,
                 style: optionsStyle,
               ),
+              /*Text(
+                'Opbrengst Zonnepannelen: ' + _opbrengstZonnepannelen,
+                style: optionsStyle,
+              ),*/
               Spacer(),
               Row(
                 children: [
@@ -130,7 +136,9 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
                     child: ElevatedButton(
                       child: Text('Unsubscribe'),
                       onPressed: () {
-                        {client?.unsubscribe(topic);}
+                        {
+                          client?.unsubscribe(topic);
+                        }
                         setState(() {
                           _totaleVerbruik = 'No Data';
                         });
