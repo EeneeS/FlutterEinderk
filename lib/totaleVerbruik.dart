@@ -13,7 +13,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
   MqttClient client;
   var topic = 'servicelocation/91d9dff3-dee8-4316-af61-dafd26172dd9/realtime';
   String _totaleVerbruik = 'No Data';
-  //String _opbrengstZonnepannelen = 'No Data';
+  String _opbrengstZonnepannelen = 'No Data';
 
   Future<MqttClient> connect() async {
     MqttServerClient client = MqttServerClient.withPort(
@@ -95,7 +95,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
     setState(() {
       Map data = jsonDecode(payload);
       _totaleVerbruik = data["totalPower"].toString() + ' Watt';
-      //_opbrengstZonnepannelen = data['channelPowers'][1]['power'];
+      _opbrengstZonnepannelen = data['channelPowers'][1]['power'].toString() + ' Watt';
     });
   }
 
@@ -117,10 +117,7 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
                 'Totale Verbruik: ' + _totaleVerbruik,
                 style: optionsStyle,
               ),
-              /*Text(
-                'Opbrengst Zonnepannelen: ' + _opbrengstZonnepannelen,
-                style: optionsStyle,
-              ),*/
+              Text('opbrengst zonnepannelen: ' + _opbrengstZonnepannelen, style: optionsStyle,),
               Spacer(),
               Row(
                 children: [
