@@ -95,19 +95,28 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
     setState(() {
       Map data = jsonDecode(payload);
       _totaleVerbruik = data["totalPower"].toString() + ' Watt';
-      _opbrengstZonnepannelen = data['channelPowers'][1]['power'].toString() + ' Watt';
+      _opbrengstZonnepannelen =
+          data['channelPowers'][1]['power'].toString() + ' Watt';
     });
   }
 
   static const TextStyle optionsStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+      TextStyle(fontSize: 20, fontWeight: FontWeight.bold);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Home'),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.refresh),
+                onPressed: () {
+                  return {client?.subscribe(topic, MqttQos.atLeastOnce)};
+                })
+          ],
         ),
+        backgroundColor: Colors.grey[350],
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -117,33 +126,11 @@ class _TotaleVerbruikState extends State<TotaleVerbruik> {
                 'Totale Verbruik: ' + _totaleVerbruik,
                 style: optionsStyle,
               ),
-              Text('opbrengst zonnepannelen: ' + _opbrengstZonnepannelen, style: optionsStyle,),
-              Spacer(),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      child: Text('Subscribe'),
-                      onPressed: () {
-                        return {client?.subscribe(topic, MqttQos.atLeastOnce)};
-                      },
-                    ),
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      child: Text('Unsubscribe'),
-                      onPressed: () {
-                        {
-                          client?.unsubscribe(topic);
-                        }
-                        setState(() {
-                          _totaleVerbruik = 'No Data';
-                        });
-                      },
-                    ),
-                  )
-                ],
+              Text(
+                'opbrengst zonnepannelen: ' + _opbrengstZonnepannelen,
+                style: optionsStyle,
               ),
+              Spacer(),
             ],
           ),
         ));
